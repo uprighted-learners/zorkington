@@ -7,25 +7,6 @@ function ask(questionText) {
   });
 }
 
-// remember the StateMachine lecture
-// https://bootcamp.burlingtoncodeacademy.com/lessons/cs/state-machines
-let states = {
-  'roomOne': { canChangeTo: [ 'roomTwo' ] },
-  'roomTwo': { canChangeTo: [ 'roomThree' ] },
-  'roomThree': { canChangeTo: [ 'roomOne' ] }
-};
-
-let currentState = "green";
-
-function enterState(newState) {
-  let validTransitions = states[currentState].canChangeTo;
-  if (validTransitions.includes(newState)) {
-    currentState = newState;
-  } else {
-    throw 'Invalid state transition attempted - from ' + currentState + ' to ' + newState;
-  }
-}
-
 start();
 
 async function start() {
