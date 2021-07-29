@@ -1,6 +1,6 @@
 # Zorkington
 
-![zork west of house](https://bootcamp.burlingtoncodeacademy.com/images/zork-west-of-house.jpg)
+![zork-west-of-house](https://user-images.githubusercontent.com/1038807/127561034-5aa029b0-53dc-424e-b2ba-0c2b8f6908f7.jpg)
 
 [Zork](https://en.wikipedia.org/wiki/Zork) was not the first text adventure game, but it was the first to achieve commercial success.
 
@@ -37,9 +37,9 @@ Your code will need to represent (or *reify*) several distinct states, including
 
 Think about appropriate data structures for each of these. Note that you do not need to write code for these until you are actually implementing a story that requires them, but it is good to make a rough plan early on, to anticipate pitfalls and estimate how difficult upcoming stories will be.
 
-Remember to *refactor*. Sometimes a data structure that works well for the simple case will need to be altered to work for the general case. In this project, the app will grow (more rooms, more commands) from story to story and your data structures should change to accommodate.
+Sometimes a data structure that works well for the simple case will need to be altered to work for the general case. In this project, the app will grow (more rooms, more commands) from story to story and your data structures should change to accommodate.
 
-You may want to create a [State Machine](/lessons/javascript/state_machines) to represent potential room transitions.
+You may want to create a **State Machine** to represent potential room transitions.
 
 ## And Don't Forget to Demo!
 
@@ -342,8 +342,8 @@ Each room should have:
 
 # Icebox
 
-* Win condition, create a puzzle that can be solved to win (or loose) the game
+* Create a **puzzle** that can be solved to win, or loose, the game.
 
-* Status line (showing room name)
+* Have a **status line** exist at the bottom of the screen, showing room name.
  
-* write a *word wrapping* function and use it to format all output
+* Write a **word wrapping** function and use it to wrap all printed output to a maxiumum 80 characters per line. See the [Wikipedia article](https://en.wikipedia.org/wiki/Characters_per_line) for more history on this subject.
