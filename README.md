@@ -7,17 +7,16 @@
 In this project, you will create a version of Zork born from your own beautiful mind. In our example case, it's one that takes place in the faraway kingdom of Burlington, Vermont. Feel free to use it as well :)
 
 ## Links
- 
-* https://en.wikipedia.org/wiki/Zork
-* https://classicreload.com/zork-i.html - Play Zork here!
-* http://mentalfloss.com/article/29885/eaten-grue-brief-history-zork
-* [Zork running in a web browser on an IBM 5050 PC emulator written in JavaScript.](https://www.pcjs.org/disks/pcx86/games/infocom/zork1/)
 
+* <https://en.wikipedia.org/wiki/Zork>
+* <https://classicreload.com/zork-i.html> - Play Zork here!
+* <http://mentalfloss.com/article/29885/eaten-grue-brief-history-zork>
+* [Zork running in a web browser on an IBM 5050 PC emulator written in JavaScript.](https://www.pcjs.org/disks/pcx86/games/infocom/zork1/)
 
 ## Goals
 
 * utilizing functions, methods, and objects for a deeper understanding of encapsulation.
-* understand *state* and *state transitions*, which are useful in many areas, e.g. 
+* understand *state* and *state transitions*, which are useful in many areas, e.g.
   * photo carousel
   * buttons, menus, other widgets
   * parsers
@@ -27,13 +26,13 @@ In this project, you will create a version of Zork born from your own beautiful 
 
 Your code will need to represent (or *reify*) several distinct states, including:
 
-  * current room
-    * room descriptions (immutable)
-    * room connections (immutable)
-    * room inventory (mutable)
-  * current player
-    * player inventory (mutable)
-    * player status (mutable)
+* current room
+  * room descriptions (immutable)
+  * room connections (immutable)
+  * room inventory (mutable)
+* current player
+  * player inventory (mutable)
+  * player status (mutable)
 
 Think about appropriate data structures for each of these. Note that you do not need to write code for these until you are actually implementing a story that requires them, but it is good to make a rough plan early on, to anticipate pitfalls and estimate how difficult upcoming stories will be.
 
@@ -41,7 +40,7 @@ Sometimes a data structure that works well for the simple case will need to be a
 
 You may want to create a **State Machine** to represent potential room transitions.
 
-## And Don't Forget to Demo!
+## Remember to Demonstrate
 
 After implementing a story, *before* starting work on the next story...
 
@@ -52,19 +51,19 @@ After implementing a story, *before* starting work on the next story...
 
 And during the day take breaks, and play each others' games!
 
-# Stories
+## Stories - Required
 
 > Note: These stories build off of the **Design** section above. While the stories provided are meant to implement those concepts, artistic liberty in how these stories manifest is ultimately yours. If you're unsure if an idea or mechanic will fulfill a certain story, ask your instructor.
 
 <!--BOX-->
 
-## One Room
+### One Room
 
 **When** the user launches the program
 
 **Then** the console displays introductory text
 
-```
+```txt
 182 Main St.
 You are standing on Main Street between Church and South Winooski.
 There is a door here. A keypad sits on the handle.
@@ -80,7 +79,7 @@ On the door is a handwritten sign.
 
 **Then** the game should output "I don't know how to ____" (or something similar)
 
-```
+```txt
 >_gargle
 Sorry, I don't know how to gargle.
 ```
@@ -91,7 +90,7 @@ Sorry, I don't know how to gargle.
 Since you're going to want to display the prompt over and over again it might make sense to put it inside a loop
 
 ```js
-while(answer !== 'exit') {
+while (answer !== 'exit') {
   answer = await ask('>_ ')
 }
 ```
@@ -100,8 +99,6 @@ while(answer !== 'exit') {
 </details>
 
 <!--/BOX-->
-
-
 
 <!--BOX-->
 
@@ -113,7 +110,7 @@ while(answer !== 'exit') {
 
 **Then** the game should output accordingly
 
-```
+```txt
 >_ read sign
 The sign says "Welcome to Burlington Code Academy!
 Come on up to the third floor.
@@ -123,7 +120,6 @@ If the door is locked, use the code 12345."
 **And** puts the player in the `starting room`
 
 **And** returns to the prompt
-
 
 <details>
 <summary>Hint</summary>
@@ -154,7 +150,7 @@ let sign = {
 
 **Then** the game denies the player
 
-```
+```txt
 >_take sign
 That would be selfish. How will other students find their way?
 ```
@@ -162,7 +158,6 @@ That would be selfish. How will other students find their way?
 (assume " **And** returns to the prompt" after this and all future stories)
 
 <!--/BOX-->
-
 
 <!--BOX-->
 
@@ -174,7 +169,7 @@ That would be selfish. How will other students find their way?
 
 **Then** the game denies the player
 
-```
+```txt
 >_open door
 The door is locked. There is a keypad on the door handle.
 ```
@@ -191,7 +186,7 @@ The door is locked. There is a keypad on the door handle.
 
 **Then** the game allows the player to enter the `next room`
 
-```
+```txt
 >_enter code 12345
 Success! The door opens.
 You enter the foyer and the door shuts behind you.
@@ -211,7 +206,7 @@ You enter the foyer and the door shuts behind you.
 
 **Then** the game denies the player entry
 
-```
+```txt
 >_enter code 00000
 Bzzzzt! The door is still locked.
 ```
@@ -228,16 +223,15 @@ Bzzzzt! The door is still locked.
 
 **Then** the game displays a description, with at least one (takeable) item in said description
 
-```
+```txt
 You are in a foyer. Or maybe it's an antechamber. 
 Or a vestibule. 
 Or an entryway. 
 Or an atrium. 
 Or a narthex. 
-But let's forget all that fancy flatlander vocabulary, and just call it a foyer.
-In Vermont, this is pronounced "FO-ee-yurr". 
+But let's forget all that fancy vocabulary, and just call it a foyer.
 Anyways, it's definitely not a mudroom. 
-A copy of Seven Days lies in a corner.
+A copy of the local paper lies in a corner.
 ```
 
 <!--/BOX-->
@@ -254,7 +248,7 @@ A copy of Seven Days lies in a corner.
 
 **Then** the game allows the player to do so
 
-```
+```txt
 >_take paper
 You pick up the paper and leaf through it looking for comics 
 and ignoring the articles, just like everybody else does.
@@ -273,9 +267,10 @@ and ignoring the articles, just like everybody else does.
 **When** the player types `i` or `inventory` or `take inventory`
 
 **Then** the game displays the player's `inventory`
-```
+
+```txt
 You are carrying:
-A copy of Seven Days, Vermont's Alt-Weekly
+A copy of the local paper
 ```
 
 <!--/BOX-->
@@ -290,7 +285,7 @@ A copy of Seven Days, Vermont's Alt-Weekly
 
 **Then** that item is removed from the player's `inventory`
 
-```
+```txt
 >_drop paper
 You drop the paper
 ```
@@ -301,21 +296,7 @@ You drop the paper
 
 <!--BOX-->
 
-## Keep it Open
-
-**Given** you have unlocked a door
-
-**When** you try and open the door again
-
-**Then** the door should still be unlocked
-
-**And** You should be moved to the next room
-
-<!--/BOX-->
-
-<!--BOX-->
-
-## Keep it Open
+## Keep Doors Open
 
 **Given** you have unlocked a door
 
@@ -327,7 +308,7 @@ You drop the paper
 
 <!--BOX-->
 
-## More Rooms
+## Create More Rooms
 
 Create at least 4 more rooms, with their own connections, puzzles, and/or inventories
 
@@ -340,10 +321,10 @@ Each room should have:
 
 <!--/BOX-->
 
-# Icebox
+## Icebox Challenges - Bonus
 
 * Create a **puzzle** that can be solved to win, or loose, the game.
 
 * Have a **status line** exist at the bottom of the screen, showing room name.
- 
-* Write a **word wrapping** function and use it to wrap all printed output to a maxiumum 80 characters per line. See the [Wikipedia article](https://en.wikipedia.org/wiki/Characters_per_line) for more history on this subject.
+
+* Write a **word wrapping** function and use it to wrap all printed output to a maximum 80 characters per line. See the [Wikipedia article](https://en.wikipedia.org/wiki/Characters_per_line) for more history on this subject.
