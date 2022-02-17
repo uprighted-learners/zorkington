@@ -1,8 +1,8 @@
 # Zorkington
 
-![zork-west-of-house](https://user-images.githubusercontent.com/1038807/127561034-5aa029b0-53dc-424e-b2ba-0c2b8f6908f7.jpg)
+![zork game west of house splash screen](https://res.cloudinary.com/btvca/image/upload/v1623935793/zork-west-of-house_ugpgww.jpg "Zork, West of House")
 
-[Zork](https://en.wikipedia.org/wiki/Zork) was not the first text adventure game, but it was the first to achieve commercial success.
+[The game Zork](https://en.wikipedia.org/wiki/Zork) was not the first text adventure game, but it was the first to achieve commercial success.
 
 In this project, you will create a version of Zork born from your own beautiful mind. In our example case, it's one that takes place in the faraway kingdom of Burlington, Vermont. Feel free to use it as well :)
 
