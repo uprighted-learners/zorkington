@@ -25,10 +25,20 @@ class Room {
   constructor(description, inventory) {
     this.description = description;
     this.inventory = inventory;
+    this.secretRoomConnection = null;
+    this.middleRoomConnection = null;
     this.northRoomConnection = null;
     this.eastRoomConnection = null;
     this.southRoomConnection = null;
     this.westRoomConnection = null;
+  }
+
+  setSecretRoomConnection(secretRoomConnection) {
+    this.secretRoomConnection = secretRoomConnection;
+  }
+
+  setMiddleRoomConnection(middleRoomConnection) {
+    this.middleRoomConnection = middleRoomConnection;
   }
 
   setNorthRoomConnection(northRoomConnection) {
@@ -125,12 +135,13 @@ function setupGame() {
     `182 Main St.
     You are standing on Main Street between Church and South Winooski.
     There is a door here. A keypad sits on the handle.
+    There's a random piece of paper on the ground.
     On the door is a handwritten sign.\n`, mainStreetItems);
     
   // Setup //! Foyer
   let foyerItems = [];
   let foyerTable = new Item('table', false, 'A wooden table in the middle of the room');
-  let foyerMedallion = new Item('paper', true, 'A peculiar looking medallion. It looks like it can be slotted into something');
+  let foyerMedallion = new Item('paper', true, 'A peculiar looking medallion.');
   foyerItems.push(foyerTable);
   foyerItems.push(foyerMedallion);
   let foyer = new Room(`You are in a foyer. Or maybe it's an antechamber. 
@@ -180,12 +191,12 @@ function setupGame() {
   You hardly notice a piece of a note peeking out from under the coffee table.`);
   let livingRoomNote = new Item(`note`, true, `Enjoying your eternal stay here? Be sure to get comfy. Whatever you do, do not take my painting of the wall.`);
   let livingRoomPainting = new Item(`painting`, true, `An elaborate painting of a person, should I take it?`);
-  let livingRoomMedallionSlot = new Item(`medallion slot`, false, `I think I can slot the medallion I found into it, should I?`);
+  // let livingRoomMedallionSlot = new Item(`medallion slot`, false, `I think I can slot the medallion I found into it, should I?`);
   livingRoomItems.push(livingRoomSofa);
   livingRoomItems.push(livingRoomCoffeeTable);
   livingRoomItems.push(livingRoomNote);
   livingRoomItems.push(livingRoomPainting);
-  livingRoomItems.push(livingRoomMedallionSlot);
+  // livingRoomItems.push(livingRoomMedallionSlot);
   
   let livingRoom = new Room(`You enter what appears to be the living room of the home. A sofa huddles in the shadows, its faded form casting a sense of unease.\n
   Opposite, a coffee table rests silently, its surface holding secrets in the dim light.`)
@@ -208,13 +219,49 @@ function setupGame() {
   
   // Setup Doors
   let doors = [];
-  let mainStreetfoyerDoor = new Door(true, "A plain door with a keypad on the door handle", "12345", "This door is locked.")
+  let mainStreetfoyerDoor = new Door(true, "A plain door with a keypad on the door handle", "12345", "This door is locked.");
+  let foyerBedroomDoor = new Door(false, "A door to another room, appears to be unlocked");
+  let foyerLivingRoomDoor = new Door(false, "The door to the living room", "432024", "Dang, the door is locked! Maybe the code is around here somewhere.");
+  let foyerKitchenDoor = new Door(false, "The door to the kitchen")
+  let livingRoomSecretDoor = new Door(false, "???", "Medallion?", "???")
+  let finalDoor = new Door(false, "???")
+
+
   doors.push(mainStreetfoyerDoor);
+  doors.push(foyerBedroomDoor);
+  doors.push(foyerLivingRoomDoor);
+  doors.push(foyerKitchenDoor);
+
+
   let mainStreetTofoyerConnection = new RoomConnection(foyer, doors.indexOf(mainStreetfoyerDoor));
   let foyerTomainStreetConnection = new RoomConnection(mainStreet, doors.indexOf(mainStreetfoyerDoor));
 
-  mainStreet.setNorthRoomConnection(mainStreetTofoyerConnection);
+  let foyerTobedroomConnection = new RoomConnection(bedRoom, doors.indexOf(foyerBedroomDoor));
+  let bedroomTofoyerConnection = new RoomConnection(foyer, doors.indexOf(foyerBedroomDoor));
+
+  let foyerTolivingRoomConnection = new RoomConnection(livingRoom, doors.indexOf(foyerLivingRoomDoor));
+  let livingRoomtofoyerConnection = new RoomConnection(foyer, doors.indexOf(foyerLivingRoomDoor));
+
+  let foyerTokitchenConnection = new RoomConnection(kitchen, doors.indexOf(foyerKitchenDoor));
+  let kitchenTofoyerConnection = new RoomConnection(foyer, doors.indexOf(foyerKitchenDoor));
+
+  let livingRoomTosecretRoomConnection = new RoomConnection(secretRoom, doors.indexOf(livingRoomSecretDoor));
+  let secretRoomtolivingRoomConnection = new RoomConnection(livingRoom, doors.indexOf(livingRoomSecretDoor));
+
+  mainStreet.setMiddleRoomConnection(mainStreetTofoyerConnection);
   foyer.setSouthRoomConnection(foyerTomainStreetConnection);
+  
+  foyer.setEastRoomConnection(foyerTokitchenConnection);
+  kitchen.setMiddleRoomConnection(kitchenTofoyerConnection)
+
+  foyer.setWestRoomConnection(foyerTobedroomConnection);
+  bedRoom.setMiddleRoomConnection(bedroomTofoyerConnection);
+
+  foyer.setNorthRoomConnection(foyerTolivingRoomConnection);
+  livingRoom.setMiddleRoomConnection(livingRoomtofoyerConnection);
+
+  livingRoom.setSecretRoomConnection(livingRoomTosecretRoomConnection);
+  secretRoom.setNorthRoomConnection(secretRoomtolivingRoomConnection);
   
   // Setup player (put into mainStreet)
   let player = new Player(mainStreet, [])
