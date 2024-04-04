@@ -22,24 +22,25 @@ class Door {
 }
 
 class Room {
-  constructor(description, inventory) {
+  constructor(name, description, inventory) {
+    this.name = name;
     this.description = description;
     this.inventory = inventory;
-    this.secretRoomConnection = null;
-    this.middleRoomConnection = null;
+    // this.secretRoomConnection = null;
+    // this.middleRoomConnection = null;
     this.northRoomConnection = null;
     this.eastRoomConnection = null;
     this.southRoomConnection = null;
     this.westRoomConnection = null;
   }
 
-  setSecretRoomConnection(secretRoomConnection) {
-    this.secretRoomConnection = secretRoomConnection;
-  }
+  // setSecretRoomConnection(secretRoomConnection) {
+  //   this.secretRoomConnection = secretRoomConnection;
+  // }
 
-  setMiddleRoomConnection(middleRoomConnection) {
-    this.middleRoomConnection = middleRoomConnection;
-  }
+  // setMiddleRoomConnection(middleRoomConnection) {
+  //   this.middleRoomConnection = middleRoomConnection;
+  // }
 
   setNorthRoomConnection(northRoomConnection) {
     this.northRoomConnection = northRoomConnection;
@@ -71,6 +72,11 @@ class Player {
   constructor(location, inventory) {
     this.location = location;
     this.inventory = inventory;
+
+  }
+
+  setLocation(location) {
+    this.location = location;
   }
 
   takeItem(itemIndex) {
@@ -119,7 +125,7 @@ class Item {
 }
 
 function setupGame() {
-  
+  // console.log("setting up game....")
   // Setup rooms
   let rooms = [];
 
@@ -131,27 +137,29 @@ function setupGame() {
   mainStreetItems.push(mainStreetPaper);
   
   // Setup //! Main Street
-  let mainStreet = new Room(
+  let mainStreet = new Room("Main Street",
     `182 Main St.
     You are standing on Main Street between Church and South Winooski.
     There is a door here. A keypad sits on the handle.
-    There's a random piece of paper on the ground.
-    On the door is a handwritten sign.\n`, mainStreetItems);
+    There's a random piece of "paper" on the ground.
+    On the door is a handwritten "sign".\n`, mainStreetItems);
     
   // Setup //! Foyer
   let foyerItems = [];
   let foyerTable = new Item('table', false, 'A wooden table in the middle of the room');
-  let foyerMedallion = new Item('paper', true, 'A peculiar looking medallion.');
+  let foyerMedallion = new Item('medallion', true, 'A peculiar looking medallion.');
   foyerItems.push(foyerTable);
   foyerItems.push(foyerMedallion);
-  let foyer = new Room(`You are in a foyer. Or maybe it's an antechamber. 
+  let foyer = new Room("Foyer", `You are in a foyer. Or maybe it's an antechamber. 
   Or a vestibule. 
   Or an entryway. 
   Or an atrium. 
   Or a narthex. 
   But let's forget all that fancy vocabulary, and just call it a foyer.
-  Anyways, it's definitely not a mudroom. 
-  You immediately notice a random medallion tucked into the corner of the room.`, foyerItems);
+  Anyways, it's definitely not a mudroom.
+  You immediately notice a random "medallion" tucked into the corner of the room.
+  There's a "table" in the center of the room.
+  There are doors going north, east, south, and west`, foyerItems);
 
   //Setup //! Bedroom
   let bedRoomItems = [];
@@ -167,7 +175,7 @@ function setupGame() {
   bedRoomItems.push(bedRoomLetter);
   bedRoomItems.push(bedRoomChair);
 
-  let bedRoom = new Room(`Stepping into the bedroom, your eyes meet a creepy looking bed, barely lit by the window.\n 
+  let bedRoom = new Room("Bedroom", `Stepping into the bedroom, your eyes meet a creepy looking bed, barely lit by the window.\n 
   A rickety desk sits against the wall, bare but for a single chair. There's a sense of unease in this room, but there must be something important here`, bedRoomItems);
   
   
@@ -180,7 +188,7 @@ function setupGame() {
   kitchenItems.push(kitchenCounter);
   kitchenItems.push(kitchenKnife);
   
-  let kitchen = new Room(`In the kitchen, a simple cupboard stands against one wall, storing essentials out of sight.\n 
+  let kitchen = new Room("Kitchen", `In the kitchen, a simple cupboard stands against one wall, storing essentials out of sight.\n 
   Nearby, a spacious counter provides ample workspace, with a knife resting on its surface, ready for use.`, kitchenItems);
   
 
@@ -198,8 +206,8 @@ function setupGame() {
   livingRoomItems.push(livingRoomPainting);
   // livingRoomItems.push(livingRoomMedallionSlot);
   
-  let livingRoom = new Room(`You enter what appears to be the living room of the home. A sofa huddles in the shadows, its faded form casting a sense of unease.\n
-  Opposite, a coffee table rests silently, its surface holding secrets in the dim light.`)
+  let livingRoom = new Room("Living Room", `You enter what appears to be the living room of the home. A sofa huddles in the shadows, its faded form casting a sense of unease.\n
+  Opposite, a coffee table rests silently, its surface holding secrets in the dim light.`, livingRoomItems)
   
 
   //Setup //! Secret(Final) Room
@@ -210,10 +218,10 @@ function setupGame() {
   secretRoomItems.push(secretRoomWorkBench);
   secretRoomItems.push(secretRoomWallet);
 
-  let secretRoom = new Room(`As you enter the secret room, a shiver runs down your spine.\n
+  let secretRoom = new Room("Secret Room", `As you enter the secret room, a shiver runs down your spine.\n
   You feel like you shouldn't be here, but feel that this must be the way out.\n
   A well kept workbench resides against the wall of the room.\n
-  After another observation of the room, you make out an unlocked door almost entirely camoflauged into the wall. Should you open it?`);
+  After another observation of the room, you make out an unlocked door almost entirely camoflauged into the wall. Should you open it?`, secretRoomItems);
   
   
   
@@ -221,7 +229,7 @@ function setupGame() {
   let doors = [];
   let mainStreetfoyerDoor = new Door(true, "A plain door with a keypad on the door handle", "12345", "This door is locked.");
   let foyerBedroomDoor = new Door(false, "A door to another room, appears to be unlocked");
-  let foyerLivingRoomDoor = new Door(false, "The door to the living room", "432024", "Dang, the door is locked! Maybe the code is around here somewhere.");
+  let foyerLivingRoomDoor = new Door(true, "The door to the living room", "432024", "Dang, the door is locked! Maybe the code is around here somewhere.");
   let foyerKitchenDoor = new Door(false, "The door to the kitchen")
   let livingRoomSecretDoor = new Door(false, "???", "Medallion?", "???")
   let finalDoor = new Door(false, "???")
@@ -231,6 +239,8 @@ function setupGame() {
   doors.push(foyerBedroomDoor);
   doors.push(foyerLivingRoomDoor);
   doors.push(foyerKitchenDoor);
+  doors.push(livingRoomSecretDoor);
+  doors.push(finalDoor)
 
 
   let mainStreetTofoyerConnection = new RoomConnection(foyer, doors.indexOf(mainStreetfoyerDoor));
@@ -248,33 +258,111 @@ function setupGame() {
   let livingRoomTosecretRoomConnection = new RoomConnection(secretRoom, doors.indexOf(livingRoomSecretDoor));
   let secretRoomtolivingRoomConnection = new RoomConnection(livingRoom, doors.indexOf(livingRoomSecretDoor));
 
-  mainStreet.setMiddleRoomConnection(mainStreetTofoyerConnection);
-  foyer.setSouthRoomConnection(foyerTomainStreetConnection);
-  
-  foyer.setEastRoomConnection(foyerTokitchenConnection);
-  kitchen.setMiddleRoomConnection(kitchenTofoyerConnection)
+  let secretRoomToWinConnection = new RoomConnection(null, doors.indexOf(finalDoor));
 
-  foyer.setWestRoomConnection(foyerTobedroomConnection);
-  bedRoom.setMiddleRoomConnection(bedroomTofoyerConnection);
+  /*
+
+      * = RoomConnection (Room, Door)
+
+                          --------------------------------------
+                          |                 | |                 |
+                          |    Living       | |    Secret       |
+                          |     Room        |_|     Room        |
+                          |                 E_W                 E* win game
+                          |                 | |                 |
+                          |                 | |                 |
+                          ---------S-----------------------------
+                                  | |*
+        ----------------- ---------N--------- -------------------
+        |               | |                 | |                 |
+        |     Bedroom   | |     Foyer       | |       Kitchen   |
+        |               |*|                 |*|                 |
+        |               E_W                 E_W                 |
+        |               | |                 | |                 |
+        |               | |                 | |                 |
+        ---------------- ---------S--------- --------------------
+                                | |*
+                        ---------N---------
+                        |                 |
+                        |     Main        |
+                        W    Street       E
+                        |                 |
+                        |                 |
+                        |                 |
+                        ---------S---------
+
+    ---mainStreet---
+      - mainStreet.setNorthRoomConnection(mainStreetTofoyerConnection)          is RoomConnection of (foyer, mainStreetFoyerDoor) 
+
+    ---foyer---
+      - foyer.setNorthRoomConnection(foyerTolivingRoomConnection)               is RoomConnection of (livingRoom, foyerLivingRoomDoor)
+      - foyer.setEastRoomConnection(foyerTokitchenConnection)                   is RoomConnection of  (kitchen,    foyerKitchenDoor)
+      - foyer.setSouthRoomConnection(foyerTomainStreetConnection)               is RoomConnection of (mainStreet, mainStreetFoyerDoor)
+      - foyer.setWestRoomConnection(foyerTobedroomConnection)                   is RoomConnection of  (bedroom,    foyerBedroomDoor)
+
+    ---bedroom---
+      - bedroom.setEastRoomConnection(bedroomTofoyerConnection)                 is RoomConnection of  (foyer, foyerBedroomDoor)
+
+    ---kitchen---
+      - kitchen.setWestRoomConnection(kitchenTofoyerConnection)                 is RoomConnection of  (foyer, foyerKitchenDoor)
+
+    ---livingRoom---
+      - livingRoom.setEastRoomConnection(livingRoomTosecretRoomConnection)      is RoomConnection of   (secretRoom, livingRoomSecretDoor)
+      - livingRoom.setSouthRoomConnection(livingRoomtofoyerConnection)          is RoomConnection of  (foyer,      foyerLivingRoomDoor)
+
+    ---secretRoom---
+      - secretRoom.setWestRoomConnection(secretRoomtolivingRoomConnection)      is RoomConnection of  (livingRoom, livingRoomSecretDoor)
+      - secretRoom.setEastRoomConnection(secretRoomToWinConnection)             is RoomConnection of  (null,       finalDoor)
+
+    when we set the player location(aka room) to null, we can "win" the game, handled later
+  */
+
+  mainStreet.setNorthRoomConnection(mainStreetTofoyerConnection);
 
   foyer.setNorthRoomConnection(foyerTolivingRoomConnection);
-  livingRoom.setMiddleRoomConnection(livingRoomtofoyerConnection);
-
-  livingRoom.setSecretRoomConnection(livingRoomTosecretRoomConnection);
-  secretRoom.setNorthRoomConnection(secretRoomtolivingRoomConnection);
+  foyer.setEastRoomConnection(foyerTokitchenConnection);
+  foyer.setSouthRoomConnection(foyerTomainStreetConnection);
+  foyer.setWestRoomConnection(foyerTobedroomConnection);
+  bedRoom.setEastRoomConnection(bedroomTofoyerConnection);
   
-  // Setup player (put into mainStreet)
+  kitchen.setWestRoomConnection(kitchenTofoyerConnection);
+  
+  livingRoom.setEastRoomConnection(livingRoomTosecretRoomConnection);
+  livingRoom.setSouthRoomConnection(livingRoomtofoyerConnection);
+  
+  secretRoom.setWestRoomConnection(secretRoomtolivingRoomConnection);
+  secretRoom.setEastRoomConnection(secretRoomToWinConnection);
+
+  // mainStreet.setMiddleRoomConnection(mainStreetTofoyerConnection);
+  // foyer.setSouthRoomConnection(foyerTomainStreetConnection);
+  
+  // foyer.setEastRoomConnection(foyerTokitchenConnection);
+  // kitchen.setMiddleRoomConnection(kitchenTofoyerConnection)
+
+  // foyer.setWestRoomConnection(foyerTobedroomConnection);
+  // bedRoom.setMiddleRoomConnection(bedroomTofoyerConnection);
+
+  // foyer.setNorthRoomConnection(foyerTolivingRoomConnection);
+  // livingRoom.setMiddleRoomConnection(livingRoomtofoyerConnection);
+
+  // livingRoom.setSecretRoomConnection(livingRoomTosecretRoomConnection);
+  // secretRoom.setNorthRoomConnection(secretRoomtolivingRoomConnection);
+  
+  // Setup player (put into mainStreet) thanks for doing all that bro I appreciate you
   let player = new Player(mainStreet, [])
-    
+
   rooms.push(mainStreet);
   rooms.push(foyer);
+  rooms.push(bedRoom);
+  rooms.push(kitchen);
+  rooms.push(livingRoom);
+  rooms.push(secretRoom);
   // Setup game (keeps track of player and rooms and doors)
   return new Game(player, rooms, doors)
 }
 
-const allowedDirections = ["north", "east", "south", "west"]
-const allowedActions = ["inspect", "take", "open", "enter", "drop", "move", "i", "inventory"]
-const noArgumentActions = ["i", "inventory"]
+const allowedActions = ["north", "east", "south", "west", "inspect", "take", "open", "drop", "i", "inventory"]
+const noArgumentActions = ["i", "inventory", "north", "east", "south", "west"]
 
 function ask(questionText) {
   return new Promise((resolve, reject) => {
@@ -293,7 +381,12 @@ async function handlePrompt() {
   let inputTokens = input.split(" ");
   let action = inputTokens[0];
   if (allowedActions.includes(action) == false) {
-    console.log(`Sorry, I don't know how to ${action}. Type /help for a list of commands`);
+    console.log(`Sorry, I don't know how to ${action}. Here is a list of commands you can use:\n
+    inspect\n
+    take\n
+    open\n
+    drop\n
+    i/inventory\n`);
     return;
   }
   
@@ -307,7 +400,7 @@ async function handlePrompt() {
   if (inputTokens.length >= 2) {
     actionArgument = inputTokens[1];
   }
-
+  // console.log(actionArgument)
   /*
     We want to inspect actionArgument (this is the name of the item)
 
@@ -320,10 +413,11 @@ async function handlePrompt() {
 
     if our actionArgument is the name of an item in our location, then print the description
   */
- // *switch is a big-ass if else chain
+
   switch(action) {
     case "inspect":
       let inspectFoundItem = false;
+      actionArgument = input.slice(action.length+1)
       // Loop through items in the player's current room
       for (itemIndex in game.player.location.inventory) { // [for-item loop...]
         // Check if current actionArgument is equal to the name of an item in the current room
@@ -339,12 +433,13 @@ async function handlePrompt() {
       }
       break;
 
-case "take":
+    case "take":
       if (actionArgument == "inventory") {
         game.player.displayInventory()
         break
       }
       let takeFoundItem = false;
+      actionArgument = input.slice(action.length+1)
 
       // loop through room's inventory to find item
       for (itemIndex in game.player.location.inventory) {
@@ -364,24 +459,161 @@ case "take":
         console.log(`I cannot find ${actionArgument} to take...`)
       }
       break;
-      
-      
-    case "open":
 
-        break
-        
-    case "enter":
-          console.log("Would do enter")
-          break
-          
+      
+    case "north":
+        if(game.player.location.northRoomConnection == null) {
+          console.log("You are walking into a wall!")
+        } else {
+          openDoorIndex = game.player.location.northRoomConnection.doorIndex
+          roomLocation = game.player.location.northRoomConnection.destinationRoom
+
+          door = null;
+          if (game.doors[openDoorIndex] != null) {
+            door = game.doors[openDoorIndex]
+          }
+
+          unlocked = true;
+          if (door.locked) {
+            let password = await ask("Enter the password: ");
+            unlocked = door.tryUnlock(password)
+          }
+          if (unlocked) {
+            game.player.setLocation(roomLocation)
+            if (roomLocation == null) {
+              console.log("You win!")
+              process.exit(0);
+            }
+            console.log(game.player.location.description)
+          } else {
+            console.log("The door is still locked")
+          }
+        }
+        break;
+    case "east":
+        if(game.player.location.eastRoomConnection == null) {
+          console.log("You are walking into a wall!")
+        } else {
+          openDoorIndex = game.player.location.eastRoomConnection.doorIndex
+          roomLocation = game.player.location.eastRoomConnection.destinationRoom
+
+          door = null;
+          if (game.doors[openDoorIndex] != null) {
+            door = game.doors[openDoorIndex]
+          }
+
+          unlocked = true;
+          if (door.locked) {
+            let password = await ask("Enter the password: ");
+            unlocked = door.tryUnlock(password)
+          }
+          if (unlocked) {
+            game.player.setLocation(roomLocation)
+            if (roomLocation == null) {
+              console.log("You win!")
+              process.exit(0);
+            }
+            console.log(game.player.location.description)
+          } else {
+            console.log("The door is still locked")
+          }
+        }
+        break;
+    case "west":
+        if(game.player.location.westRoomConnection == null) {
+          console.log("You are walking into a wall!")
+        } else {
+          openDoorIndex = game.player.location.westRoomConnection.doorIndex
+          roomLocation = game.player.location.westRoomConnection.destinationRoom
+
+          door = null;
+          if (game.doors[openDoorIndex] != null) {
+            door = game.doors[openDoorIndex]
+          }
+
+          unlocked = true;
+          if (door.locked) {
+            let password = await ask("Enter the password: ");
+            unlocked = door.tryUnlock(password)
+          }
+          if (unlocked) {
+            game.player.setLocation(roomLocation)
+            if (roomLocation == null) {
+              console.log("You win!")
+              process.exit(0);
+            }
+            console.log(game.player.location.description)
+          } else {
+            console.log("The door is still locked")
+          }
+        }
+        break;
+    case "south":
+        if(game.player.location.southRoomConnection == null) {
+          console.log("You are walking into a wall!")
+        } else {
+          openDoorIndex = game.player.location.southRoomConnection.doorIndex
+          roomLocation = game.player.location.southRoomConnection.destinationRoom
+
+          door = null;
+          if (game.doors[openDoorIndex] != null) {
+            door = game.doors[openDoorIndex]
+          }
+
+          unlocked = true;
+          if (door.locked) {
+            let password = await ask("Enter the password: ");
+            unlocked = door.tryUnlock(password)
+          }
+          if (unlocked) {
+            game.player.setLocation(roomLocation)
+            if (roomLocation == null) {
+              console.log("You win!")
+              process.exit(0);
+            }
+            console.log(game.player.location.description)
+          } else {
+            console.log("The door is still locked")
+          }
+        }
+        break;
+    case "open":
+      for (let door of game.doors) {
+        if(actionArgument === "door") {
+          openFoundDoor = true;
+
+          if (door.locked) {
+            let password = await ask("Enter the password: ");
+
+            let unlocked = door.tryUnlock(password);
+            if (unlocked) {
+              console.log("The door is unlocked! You enter the next room and the door shuts behind you");
+              game.player.setLocation(game.rooms[1]);
+              console.log(game.player.location.description);
+            } else {
+              console.log("Nope! Wrong password.");
+            }
+          } else {
+            console.log("The door is already unlocked!")
+          }
+          break;
+        }
+      }
+      if (!openFoundDoor) {
+        console.log(`There is no ${actionArgument} to open`);
+      }
+//---
+      break;
+      
     case "drop":
       let dropFoundItem = false;
+      actionArgument = input.slice(action.length+1)
 
       for (itemIndex in game.player.inventory) {
         if (actionArgument == game.player.inventory[itemIndex].name) {
           dropFoundItem = true;
           game.player.dropItem(itemIndex);
-          break // break out of itemIndex loop
+          break;
         }
       }
       if (!dropFoundItem) {
@@ -389,10 +621,6 @@ case "take":
       }
       
       break;
-
-    case "move":
-      console.log("Would do move")
-      break
 
     case "i":
     case "inventory":

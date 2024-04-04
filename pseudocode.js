@@ -107,3 +107,44 @@ Sign: Not Pickup, description gives code
 ------
 
 */
+
+// Just need to handle it like this
+      // open north/east/south/west
+      /*
+        switch (actionArgument):
+          case "north":
+            if game.player.location.northRoomConnection is null:
+              don't do anything, print an error or something because the room connection doesn't exist (the player is just walking into a wall)
+
+            openDoorIndex = game.player.location.northRoomConnection.doorIndex
+            roomLocation = game.player.location.northRoomConnection.destinationRoom
+            
+            door = null;
+            if game.doors[openDoorIndex] != null:
+              door = game.doors[openDoorIndex]
+
+            unlocked = true
+            if door.locked:
+              password = get password
+              unlocked = door.tryUnlock(password)
+            if unlocked:
+              output whatever about the door being unlocked
+              game.player.setLocation(roomLocation)
+            else:
+              print something about the door still being locked
+
+          case "east":
+            exactly the same as above, only with the eastRoomConnection instead
+
+          case "south":
+            exactly the same as above, only with the southRoomConnection instead
+
+          case "west":
+            exactly the same as above, only with the westRoomConnection instead
+
+          default:
+            treat the player as you would someone that doesn't know their directions (tell them you can only open north south east west)
+
+            secret room with final door has the room as null, that's the easiest way I can think of to "beat" the game
+            if room location is null, that is the "win" condition.
+      */
