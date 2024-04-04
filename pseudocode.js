@@ -148,3 +148,71 @@ Sign: Not Pickup, description gives code
             secret room with final door has the room as null, that's the easiest way I can think of to "beat" the game
             if room location is null, that is the "win" condition.
       */
+      /*
+
+      * = RoomConnection (Room, Door)
+
+                          --------------------------------------
+                          |                 | |                 |
+                          |    Living       | |    Secret       |
+                          |     Room        |_|     Room        |
+                          |                 E_W                 E* win game
+                          |                 | |                 |
+                          |                 | |                 |
+                          ---------S-----------------------------
+                                  | |*
+        ----------------- ---------N--------- -------------------
+        |               | |                 | |                 |
+        |     Bedroom   | |     Foyer       | |       Kitchen   |
+        |               |*|                 |*|                 |
+        |               E_W                 E_W                 |
+        |               | |                 | |                 |
+        |               | |                 | |                 |
+        ---------------- ---------S--------- --------------------
+                                | |*
+                        ---------N---------
+                        |                 |
+                        |     Main        |
+                        W    Street       E
+                        |                 |
+                        |                 |
+                        |                 |
+                        ---------S---------
+
+    ---mainStreet---
+      - mainStreet.setNorthRoomConnection(mainStreetTofoyerConnection)          is RoomConnection of (foyer, mainStreetFoyerDoor) 
+
+    ---foyer---
+      - foyer.setNorthRoomConnection(foyerTolivingRoomConnection)               is RoomConnection of (livingRoom, foyerLivingRoomDoor)
+      - foyer.setEastRoomConnection(foyerTokitchenConnection)                   is RoomConnection of  (kitchen,    foyerKitchenDoor)
+      - foyer.setSouthRoomConnection(foyerTomainStreetConnection)               is RoomConnection of (mainStreet, mainStreetFoyerDoor)
+      - foyer.setWestRoomConnection(foyerTobedroomConnection)                   is RoomConnection of  (bedroom,    foyerBedroomDoor)
+
+    ---bedroom---
+      - bedroom.setEastRoomConnection(bedroomTofoyerConnection)                 is RoomConnection of  (foyer, foyerBedroomDoor)
+
+    ---kitchen---
+      - kitchen.setWestRoomConnection(kitchenTofoyerConnection)                 is RoomConnection of  (foyer, foyerKitchenDoor)
+
+    ---livingRoom---
+      - livingRoom.setEastRoomConnection(livingRoomTosecretRoomConnection)      is RoomConnection of   (secretRoom, livingRoomSecretDoor)
+      - livingRoom.setSouthRoomConnection(livingRoomtofoyerConnection)          is RoomConnection of  (foyer,      foyerLivingRoomDoor)
+
+    ---secretRoom---
+      - secretRoom.setWestRoomConnection(secretRoomtolivingRoomConnection)      is RoomConnection of  (livingRoom, livingRoomSecretDoor)
+      - secretRoom.setEastRoomConnection(secretRoomToWinConnection)             is RoomConnection of  (null,       finalDoor)
+
+    when we set the player location(aka room) to null, we can "win" the game, handled later
+  */
+  /*
+    We want to inspect actionArgument (this is the name of the item)
+
+    Game: Player location (Room)
+    Room: Inventory (Array of Items)
+    Item: Description
+
+    game.player.location.inventory = [Sign]
+    Sign - Name: "sign", Description ...
+
+    if our actionArgument is the name of an item in our location, then print the description
+  */
