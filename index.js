@@ -4,110 +4,8 @@ const readlineInterface = readline.createInterface(
   process.stdout
 );
 
-class Door {
-  constructor(locked, description, password = "", lockedDescription = "") {
-    this.locked = locked;
-    this.description = description;
-    this.password = password;
-    this.lockedDescription = lockedDescription;
-  }
+const classes = require("./classes.js")
 
-  tryUnlock(code) {
-    if (code == this.password) {
-      this.locked = false;
-      console.log("unlocked!");
-      return true;
-    } else {
-      console.log("no unlock");
-      return false;
-    }
-  }
-}
-
-class Room {
-  constructor(name, description, inventory) {
-    this.name = name;
-    this.description = description;
-    this.inventory = inventory;
-    this.northRoomConnection = null;
-    this.eastRoomConnection = null;
-    this.southRoomConnection = null;
-    this.westRoomConnection = null;
-  }
-
-  setNorthRoomConnection(northRoomConnection) {
-    this.northRoomConnection = northRoomConnection;
-  }
-
-  setEastRoomConnection(eastRoomConnection) {
-    this.eastRoomConnection = eastRoomConnection;
-  }
-
-  setSouthRoomConnection(southRoomConnection) {
-    this.southRoomConnection = southRoomConnection;
-  }
-
-  setWestRoomConnection(westRoomConnection) {
-    this.westRoomConnection = westRoomConnection;
-  }
-}
-
-// This ties a room with a door for use by another room
-class RoomConnection {
-  constructor(destinationRoom, doorIndex) {
-    this.destinationRoom = destinationRoom;
-    this.doorIndex = doorIndex;
-  }
-}
-
-class Player {
-  constructor(location, inventory) {
-    this.location = location;
-    this.inventory = inventory;
-  }
-
-  setLocation(location) {
-    this.location = location;
-  }
-
-  takeItem(itemIndex) {
-    let takenItem = this.location.inventory.splice(itemIndex, 1)[0]; // removes the item from the room's inventory
-    this.inventory.push(takenItem); // Adding item to player inventory
-    console.log(`Added ${takenItem.name} to inventory`);
-  }
-
-  dropItem(itemIndex) {
-    let droppedItem = this.inventory.splice(itemIndex, 1)[0]; // removes the item from the player's inventory
-    this.location.inventory.push(droppedItem); // Adding item to player's current room's inventory
-    console.log(`Dropped ${droppedItem.name} to the floor`);
-  }
-
-  displayInventory() {
-    for (itemIndex in this.inventory) {
-      console.log(`${this.inventory[itemIndex].name}\n`);
-    }
-
-    if (this.inventory.length == 0) {
-      console.log("There's nothing in your inventory!");
-    }
-  }
-}
-
-class Game {
-  constructor(player, rooms, doors) {
-    this.player = player;
-    this.rooms = rooms;
-    this.doors = doors;
-  }
-}
-
-class Item {
-  constructor(name, canBePickedUp, description) {
-    this.name = name;
-    this.canBePickedUp = canBePickedUp;
-    this.description = description;
-  }
-}
 
 function setupGame() {
   // Setup rooms
@@ -115,12 +13,12 @@ function setupGame() {
 
   // Setup room one items
   let mainStreetItems = [];
-  let mainStreetSign = new Item(
+  let mainStreetSign = new classes.Item(
     "sign",
     false,
     'The sign reads: "Welcome to Burlington Code Academy!\n Come on inside!\n If the door is locked, use the code 12345"'
   );
-  let mainStreetPaper = new Item(
+  let mainStreetPaper = new classes.Item(
     "paper",
     true,
     "A random piece of paper with no value"
@@ -129,7 +27,7 @@ function setupGame() {
   mainStreetItems.push(mainStreetPaper);
 
   // Setup //! Main Street
-  let mainStreet = new Room(
+  let mainStreet = new classes.Room(
     "Main Street",
     `182 Main St.
     You are standing on Main Street between Church and South Winooski.
@@ -141,19 +39,19 @@ function setupGame() {
 
   // Setup //! Foyer
   let foyerItems = [];
-  let foyerTable = new Item(
+  let foyerTable = new classes.Item(
     "table",
     false,
     "A wooden table in the middle of the room"
   );
-  let foyerMedallion = new Item(
+  let foyerMedallion = new classes.Item(
     "medallion",
     true,
     "A peculiar looking medallion."
   );
   foyerItems.push(foyerTable);
   foyerItems.push(foyerMedallion);
-  let foyer = new Room(
+  let foyer = new classes.Room(
     "Foyer",
     `You are in a foyer. Or maybe it's an antechamber. 
   Or a vestibule. 
@@ -170,21 +68,21 @@ function setupGame() {
 
   //Setup //! Bedroom
   let bedRoomItems = [];
-  let bedRoomBed = new Item(`bed`, false, `A normal looking bed`);
-  let bedRoomDesk = new Item(
+  let bedRoomBed = new classes.Item(`bed`, false, `A normal looking bed`);
+  let bedRoomDesk = new classes.Item(
     `desk`,
     false,
     `There's a standard desk with a monitor on top of it and a computer beneath it.\n 
-  There appears to be a letter hanging out of a drawer.`
+  There appears to be a "letter" hanging out of a drawer.`
   );
-  let bedRoomLetter = new Item(
+  let bedRoomLetter = new classes.Item(
     `letter`,
     true,
     `You are trapped in the house! If you want to leave, find my secret room hahahahaaaa\n
   Looks like there's scribbles on the bottom you can barely make out\n
   "Searc te iving oom - 432024"`
   ); // Living Room door will be locked, requires code 432024
-  let bedRoomChair = new Item(
+  let bedRoomChair = new classes.Item(
     `chair`,
     false,
     `A slightly worn desk chair, appears to have no use`
@@ -194,26 +92,26 @@ function setupGame() {
   bedRoomItems.push(bedRoomLetter);
   bedRoomItems.push(bedRoomChair);
 
-  let bedRoom = new Room(
+  let bedRoom = new classes.Room(
     "Bedroom",
-    `Stepping into the bedroom, your eyes meet a creepy looking bed, barely lit by the window.\n 
-  A rickety desk sits against the wall, bare but for a single chair. There's a sense of unease in this room, but there must be something important here`,
+    `Stepping into the bedroom, your eyes meet a creepy looking "bed", barely lit by the window.\n 
+  A rickety desk sits against the wall, bare but for a single "chair". There's a sense of unease in this room, but there must be something important here`,
     bedRoomItems
   );
 
   //Setup //! Kitchen
   let kitchenItems = [];
-  let kitchenCupboard = new Item(
+  let kitchenCupboard = new classes.Item(
     `cupboard`,
     false,
     `There's a cupboard filled with fine china and decorative items`
   );
-  let kitchenCounter = new Item(
+  let kitchenCounter = new classes.Item(
     `counter`,
     false,
     `A knife lies casually on the kitchen counter, ready for action in the heart of culinary creativity.`
   );
-  let kitchenKnife = new Item(
+  let kitchenKnife = new classes.Item(
     `knife`,
     true,
     `Why are you READING a knife? Weirdo.`
@@ -222,35 +120,35 @@ function setupGame() {
   kitchenItems.push(kitchenCounter);
   kitchenItems.push(kitchenKnife);
 
-  let kitchen = new Room(
+  let kitchen = new classes.Room(
     "Kitchen",
-    `In the kitchen, a simple cupboard stands against one wall, storing essentials out of sight.\n 
-  Nearby, a spacious counter provides ample workspace, with a knife resting on its surface, ready for use.`,
+    `In the kitchen, a simple "cupboard" stands against one wall, storing essentials out of sight.\n 
+  Nearby, a spacious "counter" provides ample workspace, with a "knife" resting on its surface, ready for use.`,
     kitchenItems
   );
 
   //Setup //! Living Room
   let livingRoomItems = [];
-  let livingRoomSofa = new Item(
+  let livingRoomSofa = new classes.Item(
     `sofa`,
     false,
     `What a nice sofa! Looks very comfy`
   );
-  let livingRoomCoffeeTable = new Item(
+  let livingRoomCoffeeTable = new classes.Item(
     `coffee table`,
     false,
     `A very interesting looking coffee table, almost looks like it doesn't belong here.\n
-  You hardly notice a piece of a note peeking out from under the coffee table.`
+  You hardly notice a piece of a "note" peeking out from under the coffee table.`
   );
-  let livingRoomNote = new Item(
+  let livingRoomNote = new classes.Item(
     `note`,
     true,
     `Enjoying your eternal stay here? Be sure to get comfy. Whatever you do, do not take my painting of the wall.`
   );
-  let livingRoomPainting = new Item(
+  let livingRoomPainting = new classes.Item(
     `painting`,
     true,
-    `An elaborate painting of a person, should I take it?`
+    `An elaborate "painting" of a person, should I take it?`
   );
   // let livingRoomMedallionSlot = new Item(`medallion slot`, false, `I think I can slot the medallion I found into it, should I?`);
   livingRoomItems.push(livingRoomSofa);
@@ -259,22 +157,22 @@ function setupGame() {
   livingRoomItems.push(livingRoomPainting);
   // livingRoomItems.push(livingRoomMedallionSlot);
 
-  let livingRoom = new Room(
+  let livingRoom = new classes.Room(
     "Living Room",
-    `You enter what appears to be the living room of the home. A sofa huddles in the shadows, its faded form casting a sense of unease.\n
-  Opposite, a coffee table rests silently, its surface holding secrets in the dim light.`,
+    `You enter what appears to be the living room of the home. A "sofa" huddles in the shadows, its faded form casting a sense of unease.\n
+  Opposite, a "coffee table" rests silently, its surface holding secrets in the dim light.`,
     livingRoomItems
   );
 
   //Setup //! Secret(Final) Room
   let secretRoomItems = [];
-  let secretRoomWorkBench = new Item(
+  let secretRoomWorkBench = new classes.Item(
     `work bench`,
     false,
     `Looks like whoever captured me does most of their dirty work here.\n
-  Against the back of the workbench, you spot a wallet full of cash.`
+  Against the back of the workbench, you spot a "wallet" full of cash.`
   );
-  let secretRoomWallet = new Item(
+  let secretRoomWallet = new classes.Item(
     `wallet`,
     true,
     `As you open the wallet, you find hundreds of dollars as well as the capturers id card`
@@ -282,36 +180,36 @@ function setupGame() {
   secretRoomItems.push(secretRoomWorkBench);
   secretRoomItems.push(secretRoomWallet);
 
-  let secretRoom = new Room(
+  let secretRoom = new classes.Room(
     "Secret Room",
     `As you enter the secret room, a shiver runs down your spine.\n
   You feel like you shouldn't be here, but feel that this must be the way out.\n
-  A well kept workbench resides against the wall of the room.\n
+  A well kept "work bench" resides against the wall of the room.\n
   After another observation of the room, you make out an unlocked door almost entirely camoflauged into the wall. Should you open it?`,
     secretRoomItems
   );
 
   // Setup Doors
   let doors = [];
-  let mainStreetfoyerDoor = new Door(
+  let mainStreetfoyerDoor = new classes.Door(
     true,
     "A plain door with a keypad on the door handle",
     "12345",
     "This door is locked."
   );
-  let foyerBedroomDoor = new Door(
+  let foyerBedroomDoor = new classes.Door(
     false,
     "A door to another room, appears to be unlocked"
   );
-  let foyerLivingRoomDoor = new Door(
+  let foyerLivingRoomDoor = new classes.Door(
     true,
     "The door to the living room",
     "432024",
     "Dang, the door is locked! Maybe the code is around here somewhere."
   );
-  let foyerKitchenDoor = new Door(false, "The door to the kitchen");
-  let livingRoomSecretDoor = new Door(false, "???", "Medallion?", "???");
-  let finalDoor = new Door(false, "???");
+  let foyerKitchenDoor = new classes.Door(false, "The door to the kitchen");
+  let livingRoomSecretDoor = new classes.Door(false, "???", "Medallion?", "???");
+  let finalDoor = new classes.Door(false, "???");
 
   doors.push(mainStreetfoyerDoor);
   doors.push(foyerBedroomDoor);
@@ -320,52 +218,52 @@ function setupGame() {
   doors.push(livingRoomSecretDoor);
   doors.push(finalDoor);
 
-  let mainStreetTofoyerConnection = new RoomConnection(
+  let mainStreetTofoyerConnection = new classes.RoomConnection(
     foyer,
     doors.indexOf(mainStreetfoyerDoor)
   );
-  let foyerTomainStreetConnection = new RoomConnection(
+  let foyerTomainStreetConnection = new classes.RoomConnection(
     mainStreet,
     doors.indexOf(mainStreetfoyerDoor)
   );
 
-  let foyerTobedroomConnection = new RoomConnection(
+  let foyerTobedroomConnection = new classes.RoomConnection(
     bedRoom,
     doors.indexOf(foyerBedroomDoor)
   );
-  let bedroomTofoyerConnection = new RoomConnection(
+  let bedroomTofoyerConnection = new classes.RoomConnection(
     foyer,
     doors.indexOf(foyerBedroomDoor)
   );
 
-  let foyerTolivingRoomConnection = new RoomConnection(
+  let foyerTolivingRoomConnection = new classes.RoomConnection(
     livingRoom,
     doors.indexOf(foyerLivingRoomDoor)
   );
-  let livingRoomtofoyerConnection = new RoomConnection(
+  let livingRoomtofoyerConnection = new classes.RoomConnection(
     foyer,
     doors.indexOf(foyerLivingRoomDoor)
   );
 
-  let foyerTokitchenConnection = new RoomConnection(
+  let foyerTokitchenConnection = new classes.RoomConnection(
     kitchen,
     doors.indexOf(foyerKitchenDoor)
   );
-  let kitchenTofoyerConnection = new RoomConnection(
+  let kitchenTofoyerConnection = new classes.RoomConnection(
     foyer,
     doors.indexOf(foyerKitchenDoor)
   );
 
-  let livingRoomTosecretRoomConnection = new RoomConnection(
+  let livingRoomTosecretRoomConnection = new classes.RoomConnection(
     secretRoom,
     doors.indexOf(livingRoomSecretDoor)
   );
-  let secretRoomtolivingRoomConnection = new RoomConnection(
+  let secretRoomtolivingRoomConnection = new classes.RoomConnection(
     livingRoom,
     doors.indexOf(livingRoomSecretDoor)
   );
 
-  let secretRoomToWinConnection = new RoomConnection(
+  let secretRoomToWinConnection = new classes.RoomConnection(
     null,
     doors.indexOf(finalDoor)
   );
@@ -387,7 +285,7 @@ function setupGame() {
   secretRoom.setEastRoomConnection(secretRoomToWinConnection);
 
   // Setup player (put into mainStreet) thanks for doing all that bro I appreciate you
-  let player = new Player(mainStreet, []);
+  let player = new classes.Player(mainStreet, []);
 
   rooms.push(mainStreet);
   rooms.push(foyer);
@@ -396,7 +294,7 @@ function setupGame() {
   rooms.push(livingRoom);
   rooms.push(secretRoom);
   // Setup game (keeps track of player and rooms and doors)
-  return new Game(player, rooms, doors);
+  return new classes.Game(player, rooms, doors);
 }
 
 const allowedActions = [
