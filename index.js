@@ -95,7 +95,7 @@ function setupGame() {
   let bedRoom = new classes.Room(
     "Bedroom",
     `Stepping into the bedroom, your eyes meet a creepy looking "bed", barely lit by the window.\n 
-  A rickety desk sits against the wall, bare but for a single "chair". There's a sense of unease in this room, but there must be something important here`,
+  A rickety "desk" sits against the wall, bare but for a single "chair". There's a sense of unease in this room, but there must be something important here`,
     bedRoomItems
   );
 
@@ -143,19 +143,24 @@ function setupGame() {
   let livingRoomNote = new classes.Item(
     `note`,
     true,
-    `Enjoying your eternal stay here? Be sure to get comfy. Whatever you do, do not take my painting of the wall.`
+    `Enjoying your eternal stay here? Be sure to get comfy. Whatever you do, do not touch my "painting" on the wall.`
   );
   let livingRoomPainting = new classes.Item(
     `painting`,
     true,
-    `An elaborate "painting" of a person, should I take it?`
+    `An elaborate "painting" of a person. You turn it around and find a phrase on the back.
+    You think you're smart enough to escape? Here's a riddle...\n\n
+    Gathered underneath the moon's silver gleam,\n
+    Over hills where wildflowers dream,\n
+    Every whisper of the breeze, a silent stream,\n
+    Amidst the shadows, a timeless theme,\n
+    Seeking solace in the starry regime,\n
+    Together, we wander, guided by our own esteem.`
   );
-  // let livingRoomMedallionSlot = new Item(`medallion slot`, false, `I think I can slot the medallion I found into it, should I?`);
   livingRoomItems.push(livingRoomSofa);
   livingRoomItems.push(livingRoomCoffeeTable);
   livingRoomItems.push(livingRoomNote);
   livingRoomItems.push(livingRoomPainting);
-  // livingRoomItems.push(livingRoomMedallionSlot);
 
   let livingRoom = new classes.Room(
     "Living Room",
@@ -185,7 +190,7 @@ function setupGame() {
     `As you enter the secret room, a shiver runs down your spine.\n
   You feel like you shouldn't be here, but feel that this must be the way out.\n
   A well kept "work bench" resides against the wall of the room.\n
-  After another observation of the room, you make out an unlocked door almost entirely camoflauged into the wall. Should you open it?`,
+  After another observation of the room, you make out an unlocked door almost entirely camoflauged into the east wall. Should you open it?`,
     secretRoomItems
   );
 
@@ -208,8 +213,8 @@ function setupGame() {
     "Dang, the door is locked! Maybe the code is around here somewhere."
   );
   let foyerKitchenDoor = new classes.Door(false, "The door to the kitchen");
-  let livingRoomSecretDoor = new classes.Door(false, "???", "Medallion?", "???");
-  let finalDoor = new classes.Door(false, "???");
+  let livingRoomSecretDoor = new classes.Door(false, "???", "Medallion?", "???"); // these doors don't matter since player uses directions
+  let finalDoor = new classes.Door(false, "???"); 
 
   doors.push(mainStreetfoyerDoor);
   doors.push(foyerBedroomDoor);
@@ -329,7 +334,7 @@ async function handlePrompt() {
     console.log(`Sorry, I don't know how to ${action}. Here is a list of commands you can use:\n
     inspect\n
     take\n
-    open\n
+    north/east/south/west\n
     drop\n
     i/inventory\n`);
     return;
@@ -441,7 +446,7 @@ async function handlePrompt() {
         if (unlocked) {
           game.player.setLocation(roomLocation);
           if (roomLocation == null) {
-            console.log("You win!");
+            console.log("As you walk out of the seemingly cursed building, you feel a sense of instant relief.\n YOU WIN!!!");
             process.exit(0);
           }
           console.log(game.player.location.description);
