@@ -9,10 +9,10 @@ class Door {
     tryUnlock(code) {
       if (code == this.password) {
         this.locked = false;
-        console.log("unlocked!");
+        console.log("It unlocked!");
         return true;
       } else {
-        console.log("no unlock");
+        console.log("Dang... it's still locked.");
         return false;
       }
     }

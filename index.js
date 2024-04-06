@@ -21,7 +21,7 @@ function setupGame() {
   let mainStreetPaper = new classes.Item(
     "paper",
     true,
-    "A random piece of paper with no value"
+    "Looks like a discared piece of paper. I don't think I can use this."
   );
   mainStreetItems.push(mainStreetSign);
   mainStreetItems.push(mainStreetPaper);
@@ -42,7 +42,7 @@ function setupGame() {
   let foyerTable = new classes.Item(
     "table",
     false,
-    "A wooden table in the middle of the room"
+    "A wooden table in the middle of the room."
   );
   let foyerMedallion = new classes.Item(
     "medallion",
@@ -62,7 +62,7 @@ function setupGame() {
   Anyways, it's definitely not a mudroom.
   You immediately notice a random "medallion" tucked into the corner of the room.
   There's a "table" in the center of the room.
-  There are doors going north, east, south, and west`,
+  There are doors going north, east, south, and west.`,
     foyerItems
   );
 
@@ -78,14 +78,14 @@ function setupGame() {
   let bedRoomLetter = new classes.Item(
     `letter`,
     true,
-    `You are trapped in the house! If you want to leave, find my secret room hahahahaaaa\n
-  Looks like there's scribbles on the bottom you can barely make out\n
+    `You are trapped in the house! If you want to leave, find my secret room hahahahaaaa!\n
+  Looks like there's scribbles on the bottom you can barely make out.\n
   "Searc te iving oom - 432024"`
   ); // Living Room door will be locked, requires code 432024
   let bedRoomChair = new classes.Item(
     `chair`,
     false,
-    `A slightly worn desk chair, appears to have no use`
+    `A slightly worn desk chair, appears to have no use.`
   );
   bedRoomItems.push(bedRoomBed);
   bedRoomItems.push(bedRoomDesk);
@@ -95,7 +95,7 @@ function setupGame() {
   let bedRoom = new classes.Room(
     "Bedroom",
     `Stepping into the bedroom, your eyes meet a creepy looking "bed", barely lit by the window.\n 
-  A rickety "desk" sits against the wall, bare but for a single "chair". There's a sense of unease in this room, but there must be something important here`,
+  A rickety "desk" sits against the wall, bare but for a single "chair". There's a sense of unease in this room, but there must be something important here.`,
     bedRoomItems
   );
 
@@ -104,7 +104,7 @@ function setupGame() {
   let kitchenCupboard = new classes.Item(
     `cupboard`,
     false,
-    `There's a cupboard filled with fine china and decorative items`
+    `There's a cupboard filled with fine china and decorative items.`
   );
   let kitchenCounter = new classes.Item(
     `counter`,
@@ -114,7 +114,7 @@ function setupGame() {
   let kitchenKnife = new classes.Item(
     `knife`,
     true,
-    `Why are you READING a knife? Weirdo.`
+    `Just a plain old knife, I probably have no use for it.`
   );
   kitchenItems.push(kitchenCupboard);
   kitchenItems.push(kitchenCounter);
@@ -180,7 +180,7 @@ function setupGame() {
   let secretRoomWallet = new classes.Item(
     `wallet`,
     true,
-    `As you open the wallet, you find hundreds of dollars as well as the capturers id card`
+    `As you open the wallet, you find hundreds of dollars as well as the capturers id card.`
   );
   secretRoomItems.push(secretRoomWorkBench);
   secretRoomItems.push(secretRoomWallet);
@@ -190,7 +190,8 @@ function setupGame() {
     `As you enter the secret room, a shiver runs down your spine.\n
   You feel like you shouldn't be here, but feel that this must be the way out.\n
   A well kept "work bench" resides against the wall of the room.\n
-  After another observation of the room, you make out an unlocked door almost entirely camoflauged into the east wall. Should you open it?`,
+  After another observation of the room, you make out an unlocked door almost entirely ca
+  moflauged into the east wall. Should you open it?`,
     secretRoomItems
   );
 
@@ -198,21 +199,21 @@ function setupGame() {
   let doors = [];
   let mainStreetfoyerDoor = new classes.Door(
     true,
-    "A plain door with a keypad on the door handle",
+    "A plain door with a keypad on the door handle.",
     "12345",
     "This door is locked."
   );
   let foyerBedroomDoor = new classes.Door(
     false,
-    "A door to another room, appears to be unlocked"
+    "A door to another room, appears to be unlocked."
   );
   let foyerLivingRoomDoor = new classes.Door(
     true,
-    "The door to the living room",
+    "The door to the living room.",
     "432024",
     "Dang, the door is locked! Maybe the code is around here somewhere."
   );
-  let foyerKitchenDoor = new classes.Door(false, "The door to the kitchen");
+  let foyerKitchenDoor = new classes.Door(false, "The door to the kitchen.");
   let livingRoomSecretDoor = new classes.Door(false, "???", "Medallion?", "???"); // these doors don't matter since player uses directions
   let finalDoor = new classes.Door(false, "???"); 
 
@@ -422,7 +423,7 @@ async function handlePrompt() {
           }
           console.log(game.player.location.description);
         } else {
-          console.log("The door is still locked");
+          console.log("The door is still locked!");
         }
       }
       break;
@@ -451,7 +452,7 @@ async function handlePrompt() {
           }
           console.log(game.player.location.description);
         } else {
-          console.log("The door is still locked");
+          console.log("The door is still locked!");
         }
       }
       break;
@@ -480,7 +481,7 @@ async function handlePrompt() {
           }
           console.log(game.player.location.description);
         } else {
-          console.log("The door is still locked");
+          console.log("The door is still locked!");
         }
       }
       break;
@@ -509,7 +510,7 @@ async function handlePrompt() {
           }
           console.log(game.player.location.description);
         } else {
-          console.log("The door is still locked");
+          console.log("The door is still locked!");
         }
       }
       break;
