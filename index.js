@@ -1,11 +1,11 @@
+//Adding a comment to create feedback for the pull request
 const readline = require("readline");
 const readlineInterface = readline.createInterface(
   process.stdin,
   process.stdout
 );
 
-const classes = require("./classes.js")
-
+const classes = require("./classes.js");
 
 function setupGame() {
   // Setup rooms
@@ -214,8 +214,13 @@ function setupGame() {
     "Dang, the door is locked! Maybe the code is around here somewhere."
   );
   let foyerKitchenDoor = new classes.Door(false, "The door to the kitchen.");
-  let livingRoomSecretDoor = new classes.Door(false, "???", "Medallion?", "???"); // these doors don't matter since player uses directions
-  let finalDoor = new classes.Door(false, "???"); 
+  let livingRoomSecretDoor = new classes.Door(
+    false,
+    "???",
+    "Medallion?",
+    "???"
+  ); // these doors don't matter since player uses directions
+  let finalDoor = new classes.Door(false, "???");
 
   doors.push(mainStreetfoyerDoor);
   doors.push(foyerBedroomDoor);
@@ -447,7 +452,9 @@ async function handlePrompt() {
         if (unlocked) {
           game.player.setLocation(roomLocation);
           if (roomLocation == null) {
-            console.log("As you walk out of the seemingly cursed building, you feel a sense of instant relief.\n YOU WIN!!!");
+            console.log(
+              "As you walk out of the seemingly cursed building, you feel a sense of instant relief.\n YOU WIN!!!"
+            );
             process.exit(0);
           }
           console.log(game.player.location.description);
